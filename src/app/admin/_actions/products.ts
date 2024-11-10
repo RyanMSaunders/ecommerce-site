@@ -68,3 +68,65 @@ export async function deleteProduct(id: string) {
   fs.unlink(product.filePath)
   await fs.unlink(`public${product.imagePath}`)
 }
+
+const editSchema = addSchema.extend({
+  file: fileSchema.optional(),
+  image: imageSchema.optional()
+})
+
+
+export async function updateProduct(id: string, prevState: unknown, formData: FormData) {
+  const result = editSchema.safeParse(Object.fromEntries(formData.entries()))
+  if (result.success === false) {
+    return result.error.formErrors.fieldErrors
+  }
+
+  const data = result.data
+  const product = await db.product.findUnique({ where: { id }})
+
+  if (product == null) return notFound()
+
+  let filePath = product.filePath
+  if (data.file != null && data.file.size > 0) {
+    await fs.unlink(product.filePath)
+    filePath = `products/${crypto.randomUUID()}-${data.file.name}`
+    await fs.writeFile(filePath, Buffer.from(await data.file.arrayBuffer()))
+  }
+
+  let imagePath = product.imagePath
+  if (data.image != null && data.image.size > 0) {
+    await fs.unlink(`public${product.imagePath}`)
+    imagePath = `/products/${crypto.randomUUID()}-${data.image.name}`
+    await fs.writeFile(`public${imagePath}`, Buffer.from(await data.image.arrayBuffer()))
+  }
+
+
+
+//  // Ensures "products" directory exists, creating it if necessary
+//   await fs.mkdir("products", { recursive: true })
+// // Generates a unique file path and saves the uploaded file
+//   const filePath = `products/${crypto.randomUUID()}-${data.file.name}`
+//   await fs.writeFile(filePath, Buffer.from(await data.file.arrayBuffer()))
+
+// // Ensures "public/products" directory exists for image, creating it if necessary
+//   await fs.mkdir("public/products", { recursive: true })
+//  // Generates a unique image path and saves the uploaded image in the public directory
+//   const imagePath = `/products/${crypto.randomUUID()}-${data.image.name}`
+//   await fs.writeFile(`public${imagePath}`, Buffer.from(await data.image.arrayBuffer()))
+
+  // Saves product details, including file and image paths, to the database
+  await db.product.update({ 
+    where: { id },
+    data: {
+    name: data.name,
+    description: data.description,
+    priceInCents: data.priceInCents,
+    filePath,
+    imagePath
+
+    },
+  })
+ 
+
+  redirect("/admin/products")
+}
