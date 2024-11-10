@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import fs from "fs/promises"
 import { NextResponse, NextRequest } from "next/server";
 
+// Define GET request handler for fetching and downloading a product file
 export async function GET(req: NextRequest, { params: { id }}: {params: { id: string }}) {
   const product = await db.product.findUnique({ 
     where: { id }, 
@@ -15,6 +16,7 @@ export async function GET(req: NextRequest, { params: { id }}: {params: { id: st
   const file = await fs.readFile(product.filePath)
   const extension = product.filePath.split(".").pop()
 
+    // Return the file as a response with download headers
   return new NextResponse(file, { headers: {
     "Content-Disposition": `attachment; filename="${product.name}.${extension}"`,
     "Content-Length": size.toString()
