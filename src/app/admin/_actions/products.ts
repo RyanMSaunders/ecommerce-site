@@ -21,7 +21,7 @@ const addSchema = z.object({
 })
 
 // Main function to add a product
-export async function addProduct(formData: FormData) {
+export async function addProduct(prevState: unknown, formData: FormData) {
   const result = addSchema.safeParse(Object.fromEntries(formData.entries()))
   if (result.success === false) {
     return result.error.formErrors.fieldErrors
@@ -50,7 +50,7 @@ export async function addProduct(formData: FormData) {
     imagePath
 
   }})
-  
+
   // Redirects to the product administration page upon successful creation
   redirect("/admin/products")
 }
