@@ -1,30 +1,44 @@
-import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-module.exports = {
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '200mb',
-    }
-  },
-  // webpack(config: any) {
-  //   config.resolve.modules.push('node_modules');
-  //   config.resolve.alias['react'] = require.resolve('react');
-  //   config.resolve.fallback = {
-  //     ...config.resolve.fallback,
-  //     'react/jsx-runtime': 'react/jsx-runtime.js',
-  //     'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js',
-  //   };
-  //   return config;
-  // },
-  
-}
+/** @type {import('next').NextConfig} */
+const nextConfig = {};
 
 export default nextConfig;
 
+
+
+
+
+
+////////////////////
+
+// import type { NextConfig } from "next";
+
+// const nextConfig: NextConfig = {
+//   /* config options here */
+// };
+
+// module.exports = {
+//   experimental: {
+//     serverActions: {
+//       bodySizeLimit: '200mb',
+//     }
+//   },
+//   // webpack(config: any) {
+//   //   config.resolve.modules.push('node_modules');
+//   //   config.resolve.alias['react'] = require.resolve('react');
+//   //   config.resolve.fallback = {
+//   //     ...config.resolve.fallback,
+//   //     'react/jsx-runtime': 'react/jsx-runtime.js',
+//   //     'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js',
+//   //   };
+//   //   return config;
+//   // },
+  
+// }
+
+// export default nextConfig;
+
+/////////////////////////////////////////////////////
 
 // import type { NextConfig } from "next";
 
