@@ -13,6 +13,7 @@
     "isolatedModules": true,
     // "jsx": "preserve",
     "jsx": "react-jsx",
+    "jsx": "react-jsxdev",
     "incremental": true,
     "plugins": [
       {
