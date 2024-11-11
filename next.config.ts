@@ -13,14 +13,14 @@ module.exports = {
   webpack(config: any) {
     config.resolve.modules.push('node_modules');
     config.resolve.alias['react'] = require.resolve('react');
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      'react/jsx-runtime': 'react/jsx-runtime.js',
+      'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js',
+    };
     return config;
   },
-  resolve: {
-    fallback: {
-        'react/jsx-runtime': 'react/jsx-runtime.js',
-        'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js',
-    },
-  },
+  
   rules: [
     {
       test: /\.jsx?$/,
