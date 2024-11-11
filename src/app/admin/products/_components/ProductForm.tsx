@@ -10,12 +10,12 @@ import { Button } from "@/components/ui/button"
 import { addProduct, updateProduct } from "../../_actions/products"
 import { useFormStatus } from "react-dom"
 import { useFormState } from "react-dom"
-import { useActionState } from "react"
+// import { useActionState } from "react"
 import { Product } from "@prisma/client"
 import Image from "next/image"
 
 export function ProductForm({product}: { product?: Product | null }) {
-  const [error, action] = useActionState(product == null ? addProduct : updateProduct.bind(null, product.id), {})
+  const [error, action] = useFormState(product == null ? addProduct : updateProduct.bind(null, product.id), {})
   const [priceInCents, setPriceInCents] = useState<number | undefined>(product?.priceInCents)
 
   return (
