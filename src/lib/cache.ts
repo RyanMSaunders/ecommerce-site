@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
 import { unstable_cache as nextCache} from "next/cache" // for data cache
 import { cache as reactCache} from "react" // for request memoization
 
