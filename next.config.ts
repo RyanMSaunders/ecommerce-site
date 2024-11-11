@@ -21,25 +21,6 @@ module.exports = {
     return config;
   },
   
-  rules: [
-    {
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-          options: {
-            presets: [
-              [
-                '@babel/preset-react',
-                {
-                  runtime: 'automatic', // Enabling the new JSX transform
-                }
-              ]
-            ]
-          }
-      }
-    },
-  ],
 }
 
 export default nextConfig;
@@ -61,3 +42,23 @@ export default nextConfig;
 // };
 
 // export default nextConfig;
+
+// rules: [
+  //   {
+  //     test: /\.jsx?$/,
+  //     exclude: /node_modules/,
+  //     use: {
+  //       loader: 'babel-loader',
+  //         options: {
+  //           presets: [
+  //             [
+  //               '@babel/preset-react',
+  //               {
+  //                 runtime: 'automatic', // Enabling the new JSX transform
+  //               }
+  //             ]
+  //           ]
+  //         }
+  //     }
+  //   },
+  // ],
