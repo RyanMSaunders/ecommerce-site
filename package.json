@@ -44,6 +44,7 @@
   },
   "resolutions": {
     "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react-dom": "19.0.0",
+    "@react-email/components/react": "18.0.0"
   }
 }
