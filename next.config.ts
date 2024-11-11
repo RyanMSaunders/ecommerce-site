@@ -15,6 +15,10 @@ module.exports = {
     config.resolve.alias['react'] = require.resolve('react');
     return config;
   },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    // ...
+  },
   rules: [
     {
       test: /\.jsx?$/,
