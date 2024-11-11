@@ -7,7 +7,7 @@ body {
 }
 
 @layer base {
-  :root {
+  /* :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -33,7 +33,37 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-  }
+  } */
+
+  :root {
+    --background: 34 30% 94%; /* Light beige background */
+    --foreground: 8 20% 25%; /* Darker brown text (more contrast) */
+    --card: 34 28% 85%; /* Soft cream card background */
+    --card-foreground: 8 20% 25%; /* Darker brown card text */
+    --popover: 34 30% 94%; /* Light beige popover */
+    --popover-foreground: 8 20% 25%; /* Darker brown popover text */
+    --primary: 15 50% 40%; /* Warmer coffee brown for primary button */
+    --primary-foreground: 15 60% 95%; /* Light cream text on primary button */
+    --secondary: 25 50% 55%; /* Muted red-brown for secondary elements */
+    --secondary-foreground: 8 20% 25%; /* Dark brown for secondary text */
+    --muted: 34 28% 85%; /* Soft cream for muted elements */
+    --muted-foreground: 8 20% 35%; /* Darker brown for muted text */
+    --accent: 25 30% 70%; /* Subtle, warm terracotta accent */
+    --accent-foreground: 8 20% 25%; /* Dark brown accent text */
+    --destructive: 0 60% 50%; /* Rich, brick red for destructive actions */
+    --destructive-foreground: 8 20% 95%; /* Light text on destructive buttons */
+    --border: 25 40% 65%; /* Light warm brown border with more contrast */
+    --input: 25 40% 75%; /* Light brown input fields with more contrast */
+    --ring: 15 50% 65%; /* Muted coffee ring (focus) */
+    --chart-1: 45 60% 50%; /* Soft green for chart color */
+    --chart-2: 12 30% 65%; /* Muted brown for chart color */
+    --chart-3: 8 20% 35%; /* Dark brown for chart color */
+    --chart-4: 45 60% 60%; /* Coffee green for chart color */
+    --chart-5: 25 50% 65%; /* Warm terracotta for chart color */
+}
+  
+  
+  
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;

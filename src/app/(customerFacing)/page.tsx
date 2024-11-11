@@ -31,6 +31,7 @@ const getNewestProducts =  cache(() => {
 export default function HomePage() {
   return (
     <main className="space-y-12">
+      <HeroSection />
       <ProductGridSection title="Most Popular" productsFetcher={getMostPopularProducts}/>
       <ProductGridSection title="Newest" productsFetcher={getNewestProducts}/>
 
@@ -78,4 +79,19 @@ async function ProductSuspense({productsFetcher}: {productsFetcher: () => Promis
   return (await productsFetcher()).map(product => (
     <ProductCard key={product.id} {...product}/>
  ))
+}
+
+// Hero Section Component
+function HeroSection() {
+  return (
+    <div className="relative h-[400px] bg-cover bg-center" style={{ backgroundImage: 'url("../gabriel-gurrola-2UuhMZEChdc-unsplash.jpg")' }}>
+      <div className="absolute inset-0 bg-black bg-opacity-65 flex flex-col justify-center items-center text-center">
+        {/* Main Heading */}
+        <h1 className="text-6xl font-bold text-white italic mb-4">Welcome to Chord Café</h1>
+        
+        {/* Subheading */}
+        <h2 className="text-3xl text-white opacity-80">Learn music online at your own pace with interactive video lessons!</h2>
+      </div>
+    </div>
+  )
 }
