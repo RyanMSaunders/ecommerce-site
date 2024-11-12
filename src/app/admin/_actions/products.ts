@@ -38,29 +38,30 @@ export async function addProduct(prevState: unknown, formData: FormData) {
   const data = result.data
   const baseDir = getBaseDir()
   
-  // Create paths for both file and image directories
+  // For development and production, ensure images go to public/products
   const productsDir = join(baseDir, 'products')
   const publicProductsDir = join(baseDir, 'public', 'products')
 
-  // Create directories if they don't exist
+  // Create directories
   await fs.mkdir(productsDir, { recursive: true })
   await fs.mkdir(publicProductsDir, { recursive: true })
 
-  // Generate unique IDs for files
+  // Generate unique IDs
   const fileId = crypto.randomUUID()
   const imageId = crypto.randomUUID()
   
-  // Full paths for writing files
+  // Save the product file
   const fullFilePath = join(productsDir, `${fileId}-${data.file.name}`)
-  const fullImagePath = join(publicProductsDir, `${imageId}-${data.image.name}`)
-  
-  // Write files
   await fs.writeFile(fullFilePath, Buffer.from(await data.file.arrayBuffer()))
+
+  // Save the image to public directory
+  const imageFileName = `${imageId}-${data.image.name}`
+  const fullImagePath = join(publicProductsDir, imageFileName)
   await fs.writeFile(fullImagePath, Buffer.from(await data.image.arrayBuffer()))
 
-  // Database paths (these should be relative and consistent across environments)
+  // Store the consistent paths in database
   const filePath = `products/${fileId}-${data.file.name}`
-  const imagePath = `/products/${imageId}-${data.image.name}`
+  const imagePath = `/products/${imageFileName}`  // This path will work with your existing ProductCard
 
   // Save to database
   await db.product.create({
