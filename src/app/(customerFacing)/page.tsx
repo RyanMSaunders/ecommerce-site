@@ -32,6 +32,18 @@ const getMostPopularProducts = cache(
   { revalidate: 60 * 60 * 24 }
 )
 
+// const getMostPopularProducts = cache(
+//   () => {
+//     return db.product.findMany({
+//       where: { isAvailableForPurchase: true },
+//       orderBy: { orders: { _count: "desc" } },
+//       take: 6,
+//     })
+//   },
+//   ["/", "getMostPopularProducts"],
+//   { revalidate: 60 * 60 * 24 }
+// )
+
 const getNewestProducts =  cache(() => {
   
   return db.product.findMany({ 

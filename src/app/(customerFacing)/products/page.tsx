@@ -3,9 +3,9 @@ import db from "@/db/db";
 import { Suspense } from "react";
 import { cache } from "@/lib/cache";
 
-const getProducts = cache(() => {
+const getProducts = () => {
   return db.product.findMany({ where: {isAvailableForPurchase: true}, orderBy: { name: "asc"}})
-}, ["/products", "getProducts"])
+}
 
 export default function ProductsPage() {
   return (
