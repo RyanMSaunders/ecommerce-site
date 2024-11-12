@@ -9,15 +9,15 @@ import { Suspense } from "react"
 import { cache } from "@/lib/cache"
 
 // Mock hardcoded products data. Temporary fix while fixing caching.
-const hardcodedProducts = [
-  { id: "1", name: "Intermediate Guitar Course", description: "Master intermediate guitar skills: riffs, scales, and techniques to elevate your playing to the next level.", priceInCents: 1999, imagePath: "/products/intermediate-guitar.jpg" },
-  { id: "2", name: "Songwriting Course", description: "Unlock creativity and craft songs: melody, lyrics, and structure for impactful songwriting.", priceInCents: 2999, imagePath: "/products/songwriting.jpg" },
-  { id: "3", name: "Strings Course", description: "Master string instruments: technique, bowing, and expression for violin, cello, and more.", priceInCents: 3999, imagePath: "/products/strings.jpg" },
-  { id: "4", name: "Ukulele Course", description: "Learn ukulele basics: chords, strumming patterns, and songs to play confidently and with ease.", priceInCents: 2999, imagePath: "/products/ukulele.jpg" },
-  { id: "5", name: "Singing Course", description: "Enhance your voice: vocal techniques, breath control, and confidence for powerful singing.", priceInCents: 1999, imagePath: "/products/singing.jpg" },
-  { id: "6", name: "Advanced Piano Course", description: "Refine advanced piano skills: complex techniques, expressive dynamics, and performance mastery.", priceInCents: 3999, imagePath: "/products/advanced-piano.jpg" },
-  { id: "7", name: "Beginner Piano Course", description: "Learn piano basics: keys, chords, and simple songs to build a strong musical foundation.", priceInCents: 2999, imagePath: "/products/beginner-piano.jpg" },
-]
+// const hardcodedProducts = [
+//   { id: "1", name: "Intermediate Guitar Course", description: "Master intermediate guitar skills: riffs, scales, and techniques to elevate your playing to the next level.", priceInCents: 1999, imagePath: "/products/intermediate-guitar.jpg" },
+//   { id: "2", name: "Songwriting Course", description: "Unlock creativity and craft songs: melody, lyrics, and structure for impactful songwriting.", priceInCents: 2999, imagePath: "/products/songwriting.jpg" },
+//   { id: "3", name: "Strings Course", description: "Master string instruments: technique, bowing, and expression for violin, cello, and more.", priceInCents: 3999, imagePath: "/products/strings.jpg" },
+//   { id: "4", name: "Ukulele Course", description: "Learn ukulele basics: chords, strumming patterns, and songs to play confidently and with ease.", priceInCents: 2999, imagePath: "/products/ukulele.jpg" },
+//   { id: "5", name: "Singing Course", description: "Enhance your voice: vocal techniques, breath control, and confidence for powerful singing.", priceInCents: 1999, imagePath: "/products/singing.jpg" },
+//   { id: "6", name: "Advanced Piano Course", description: "Refine advanced piano skills: complex techniques, expressive dynamics, and performance mastery.", priceInCents: 3999, imagePath: "/products/advanced-piano.jpg" },
+//   { id: "7", name: "Beginner Piano Course", description: "Learn piano basics: keys, chords, and simple songs to build a strong musical foundation.", priceInCents: 2999, imagePath: "/products/beginner-piano.jpg" },
+// ]
 
 
 const getMostPopularProducts = cache(
