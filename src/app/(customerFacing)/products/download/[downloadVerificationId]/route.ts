@@ -61,8 +61,8 @@
 
 import db from "@/db/db";
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+// import fs from "fs/promises";
+// import path from "path";
 
 
 export async function GET(
@@ -96,31 +96,40 @@ export async function GET(
   }
 
   try {
-
-    // Resolve the absolute path for the file
-    const resolvedFilePath = path.resolve(process.cwd(), `public${data.product.filePath}`);
-    console.log("Resolved file path:", resolvedFilePath);
-
-    // Check if the file exists
-    const { size } = await fs.stat(resolvedFilePath);
-    const file = await fs.readFile(resolvedFilePath);
-    const extension = resolvedFilePath.split(".").pop();
-
-
-    // console.log("File path:", data.product.filePath);
-    // const { size } = await fs.stat(data.product.filePath);
-    // const file = await fs.readFile(data.product.filePath);
-    // const extension = data.product.filePath.split(".").pop();
-
-    return new NextResponse(file, {
-      headers: {
-        "Content-Disposition": `attachment; filename="${data.product.name}.${extension}"`,
-        "Content-Type": "application/octet-stream",
-        "Content-Length": size.toString(),
-      },
-    });
+    // Redirect to the static file URL
+    return NextResponse.redirect(new URL(data.product.filePath, req.url));
   } catch (error) {
-    console.error("Error reading file:", error);
+    console.error("Error redirecting to file:", error);
     return NextResponse.redirect(new URL("/products/download/error", req.url));
   }
 }
+
+// Vercel issue reading file system
+  // try {
+
+  //   // Resolve the absolute path for the file
+  //   const resolvedFilePath = path.resolve(process.cwd(), `public${data.product.filePath}`);
+  //   console.log("Resolved file path:", resolvedFilePath);
+
+  //   // Check if the file exists
+  //   const { size } = await fs.stat(resolvedFilePath);
+  //   const file = await fs.readFile(resolvedFilePath);
+  //   const extension = resolvedFilePath.split(".").pop();
+
+
+  //   // console.log("File path:", data.product.filePath);
+  //   // const { size } = await fs.stat(data.product.filePath);
+  //   // const file = await fs.readFile(data.product.filePath);
+  //   // const extension = data.product.filePath.split(".").pop();
+
+  //   return new NextResponse(file, {
+  //     headers: {
+  //       "Content-Disposition": `attachment; filename="${data.product.name}.${extension}"`,
+  //       "Content-Type": "application/octet-stream",
+  //       "Content-Length": size.toString(),
+  //     },
+  //   });
+  // } catch (error) {
+  //   console.error("Error reading file:", error);
+  //   return NextResponse.redirect(new URL("/products/download/error", req.url));
+  // }
