@@ -9,7 +9,6 @@ export default {
 		"./src/Components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-	purge: ["./src/pages/**/*.{js,ts,jsx,tsx}", "./src/Components/**/*.{js,ts,jsx,tsx}"],
   theme: {
 		container: {
 			center: true,
