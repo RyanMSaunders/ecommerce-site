@@ -120,6 +120,7 @@ export async function GET(
       },
     });
   } catch (error) {
+    console.error("Error reading file:", error);
     return NextResponse.redirect(new URL("/products/download/error", req.url));
   }
 }
