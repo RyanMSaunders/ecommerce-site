@@ -62,11 +62,19 @@
 import db from "@/db/db";
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
+import path from "path";
+
 
 export async function GET(
   req: NextRequest,
   { params: { downloadVerificationId } }: { params: { downloadVerificationId: string } }
 ) {
+
+  if (!downloadVerificationId) {
+    console.error("Download Verification ID is missing or invalid in route.ts");
+    return NextResponse.redirect(new URL("/products/download/error", req.url));
+  }
+
   const data = await db.downloadVerification.findUnique({
     where: { id: downloadVerificationId },
     select: {
@@ -79,17 +87,30 @@ export async function GET(
     },
   });
   console.log("Fetched data:", data);
+  console.log("Download Verification ID:", downloadVerificationId);
 
 
-  if (!data || new Date() > new Date("2099-12-31")) {
-    return NextResponse.redirect(new URL("/products/download/expired", req.url));
+
+  if (data == null) {
+    return NextResponse.redirect(new URL("/products/download/expired", req.url))
   }
 
   try {
-    console.log("File path:", data.product.filePath);
-    const { size } = await fs.stat(data.product.filePath);
-    const file = await fs.readFile(data.product.filePath);
-    const extension = data.product.filePath.split(".").pop();
+
+    // Resolve the absolute path for the file
+    const resolvedFilePath = path.resolve(process.cwd(), `public${data.product.filePath}`);
+    console.log("Resolved file path:", resolvedFilePath);
+
+    // Check if the file exists
+    const { size } = await fs.stat(resolvedFilePath);
+    const file = await fs.readFile(resolvedFilePath);
+    const extension = resolvedFilePath.split(".").pop();
+
+
+    // console.log("File path:", data.product.filePath);
+    // const { size } = await fs.stat(data.product.filePath);
+    // const file = await fs.readFile(data.product.filePath);
+    // const extension = data.product.filePath.split(".").pop();
 
     return new NextResponse(file, {
       headers: {
