@@ -1,5 +1,6 @@
 
 import { Nav, NavLink } from "../../components/Nav"
+import '../globals.css'
 
 export const dynamic = "force-dynamic"
 

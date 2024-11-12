@@ -24,7 +24,7 @@
     "baseUrl": "./",
     "paths": {
       "@/*": [
-        "./src/*", "next.config.mjs"
+        "./src/*", "next.config.js"
       ]
     },
     "target": "ES2017"
