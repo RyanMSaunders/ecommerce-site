@@ -23,7 +23,7 @@
     ],
     "paths": {
       "@/*": [
-        "./src/*"
+        "./src/*", "next.config.mjs"
       ]
     },
     "target": "ES2017"
