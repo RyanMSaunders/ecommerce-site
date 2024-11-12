@@ -6,7 +6,7 @@ import { Product } from "@prisma/client"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { Suspense } from "react"
-import { cache } from "@/lib/cache"
+// import { cache } from "@/lib/cache"
 
 // Mock hardcoded products data. Temporary fix while fixing caching.
 // const hardcodedProducts = [
@@ -20,17 +20,15 @@ import { cache } from "@/lib/cache"
 // ]
 
 
-const getMostPopularProducts = cache(
+const getMostPopularProducts = 
   () => {
     return db.product.findMany({
       where: { isAvailableForPurchase: true },
       orderBy: { orders: { _count: "desc" } },
       take: 6,
     })
-  },
-  ["/", "getMostPopularProducts"],
-  { revalidate: 60 * 60 * 24 }
-)
+  }
+ 
 
 // const getMostPopularProducts = cache(
 //   () => {
@@ -44,14 +42,23 @@ const getMostPopularProducts = cache(
 //   { revalidate: 60 * 60 * 24 }
 // )
 
-const getNewestProducts =  cache(() => {
+const getNewestProducts = () => {
   
   return db.product.findMany({ 
     where: {isAvailableForPurchase: true},
     orderBy: { createdAt: "desc"},
     take: 6
   })
-}, ["/", "getNewestProducts"])
+}
+
+// const getNewestProducts =  cache(() => {
+  
+//   return db.product.findMany({ 
+//     where: {isAvailableForPurchase: true},
+//     orderBy: { createdAt: "desc"},
+//     take: 6
+//   })
+// }, ["/", "getNewestProducts"])
  
 
 export default function HomePage() {

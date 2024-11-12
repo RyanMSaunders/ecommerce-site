@@ -1,7 +1,7 @@
 import { ProductCard, ProductCardSkeleton } from "@/components/ProductCard";
 import db from "@/db/db";
 import { Suspense } from "react";
-import { cache } from "@/lib/cache";
+// import { cache } from "@/lib/cache";
 
 const getProducts = () => {
   return db.product.findMany({ where: {isAvailableForPurchase: true}, orderBy: { name: "asc"}})
