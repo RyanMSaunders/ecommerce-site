@@ -1,6 +1,11 @@
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    domains: ['dxh4ux4dn2zd4jmj.public.blob.vercel-storage.com'], // Add your Vercel Blob domain here
+  },
+
+};
 
 module.exports = nextConfig;
 
