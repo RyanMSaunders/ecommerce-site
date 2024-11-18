@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import fs from "fs/promises"
 import { NextResponse, NextRequest } from "next/server";
 
-// Define GET request handler for fetching and downloading a product file
+// Define GET request handler for fetching and downloading a product fil
 export async function GET(req: NextRequest, { params: { id }}: {params: { id: string }}) {
   const product = await db.product.findUnique({ 
     where: { id }, 
