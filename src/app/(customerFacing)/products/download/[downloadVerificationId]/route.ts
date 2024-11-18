@@ -99,7 +99,7 @@ export async function GET(
   }
 
   const blobFileUrl = data.product.filePath; // Assume filePath contains the Vercel Blob URL
-  const fileName = data.product.name || "download";
+  const fileName = `${data.product.name || "download"}.jpg`;;
 
   try {
     // Fetch the file from Vercel Blob
@@ -111,7 +111,7 @@ export async function GET(
     }
 
     const fileBuffer = await blobResponse.buffer(); // Get file as buffer
-    const contentType = blobResponse.headers.get("content-type") || "application/octet-stream";
+    const contentType = blobResponse.headers.get("content-type") || "image/jpeg";
     const contentLength = blobResponse.headers.get("content-length") || fileBuffer.length.toString();
 
     // Return the file as a downloadable response
