@@ -10,7 +10,7 @@ import { revalidatePath } from "next/cache"
 import { put } from "@vercel/blob";
 
 
-const isProd = process.env.NODE_ENV === 'production'
+// const isProd = process.env.NODE_ENV === 'production'
 
 // Helper function to get the appropriate base directory based on environment
 // function getBaseDir() {
