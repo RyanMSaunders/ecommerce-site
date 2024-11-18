@@ -12,12 +12,15 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string )
 const resend = new Resend(process.env.RESEND_API_KEY as string)
 
 export async function POST(req: NextRequest) {
+  console.log("Webhook triggered");
   const event = await stripe.webhooks.constructEvent(
     await req.text(),
     req.headers.get("stripe-signature") as string,
     process.env.STRIPE_WEBHOOK_SECRET as string
   )
   console.log("Stripe Event:", event);
+  console.log("event.type should be charge.succeeded", event.type);
+  
 
   if (event.type === "charge.succeeded") {
     const charge = event.data.object
