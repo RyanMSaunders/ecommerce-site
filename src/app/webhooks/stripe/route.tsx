@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
     req.headers.get("stripe-signature") as string,
     process.env.STRIPE_WEBHOOK_SECRET as string
   )
+  console.log("Stripe Event:", event);
 
   if (event.type === "charge.succeeded") {
     const charge = event.data.object
@@ -24,8 +25,13 @@ export async function POST(req: NextRequest) {
     const email = charge.billing_details.email
     const pricePaidInCents = charge.amount
 
+    console.log("Charge Data:", { productId, email, pricePaidInCents });
+
     const product = await db.product.findUnique({ where: { id: productId}})
+    console.log("Product Found:", product);
+
     if (product == null || email == null) {
+      console.error("Missing product or email:", { product, email });
       return new NextResponse("Bad Request", { status: 400})
     }
 
@@ -33,6 +39,7 @@ export async function POST(req: NextRequest) {
       email,
       orders: { create: { productId, pricePaidInCents } },
     }
+    console.log("User Fields for Upsert:", userFields);
     const {
       orders: [order],
     } = await db.user.upsert({
@@ -42,6 +49,8 @@ export async function POST(req: NextRequest) {
       select: { orders: { orderBy: { createdAt: "desc" }, take: 1 } },
     })
 
+    console.log("Order Created/Updated:", order);
+
     const downloadVerification = await db.downloadVerification.create({
       data: {
         productId,
@@ -49,6 +58,9 @@ export async function POST(req: NextRequest) {
       },
     })
 
+    console.log("Download Verification Created:", downloadVerification);
+    
+    console.log("Sending Confirmation Email...");
     await resend.emails.send({
       from: `Support <${process.env.SENDER_EMAIL}>`,
       to: email,
@@ -62,6 +74,7 @@ export async function POST(req: NextRequest) {
         />
       ),
     })
+    console.log("Email Sent Successfully");
   }
 
   return new NextResponse()

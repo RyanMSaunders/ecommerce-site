@@ -4,16 +4,18 @@
 import { z } from "zod"
 import db from "@/db/db"
 import fs from "fs/promises"
-import { join } from 'path'
+// import { join } from 'path'
 import { notFound, redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
+import { put } from "@vercel/blob";
+
 
 const isProd = process.env.NODE_ENV === 'production'
 
 // Helper function to get the appropriate base directory based on environment
-function getBaseDir() {
-  return isProd ? '/tmp' : process.cwd()
-}
+// function getBaseDir() {
+//   return isProd ? '/tmp' : process.cwd()
+// }
 // Defines a schema for validating a required file input
 const fileSchema = z.instanceof(File, { message: "Required" })
 // Extends file schema to ensure the file is an image type or empty
@@ -30,40 +32,77 @@ const addSchema = z.object({
 
 // Main function to add a product
 export async function addProduct(prevState: unknown, formData: FormData) {
-  const result = addSchema.safeParse(Object.fromEntries(formData.entries()))
+  // const result = addSchema.safeParse(Object.fromEntries(formData.entries()))
+  // if (result.success === false) {
+  //   return result.error.formErrors.fieldErrors
+  // }
+
+  // const data = result.data
+  // const baseDir = getBaseDir()
+  
+  // // For development and production, ensure images go to public/products
+  // const productsDir = join(baseDir, 'products')
+  // const publicProductsDir = join(baseDir, 'public', 'products')
+
+  // // Create directories
+  // await fs.mkdir(productsDir, { recursive: true })
+  // await fs.mkdir(publicProductsDir, { recursive: true })
+
+  // // Generate unique IDs
+  // const fileId = crypto.randomUUID()
+  // const imageId = crypto.randomUUID()
+  
+  // // Save the product file
+  // const fullFilePath = join(productsDir, `${fileId}-${data.file.name}`)
+  // await fs.writeFile(fullFilePath, Buffer.from(await data.file.arrayBuffer()))
+
+  // // Save the image to public directory
+  // const imageFileName = `${imageId}-${data.image.name}`
+  // const fullImagePath = join(publicProductsDir, imageFileName)
+  // await fs.writeFile(fullImagePath, Buffer.from(await data.image.arrayBuffer()))
+
+  // // Store the consistent paths in database
+  // const filePath = `products/${fileId}-${data.file.name}`
+  // const imagePath = `/products/${imageFileName}`  // This path will work with your existing ProductCard
+
+  // // Save to database
+  // await db.product.create({
+  //   data: {
+  //     isAvailableForPurchase: false,
+  //     name: data.name,
+  //     description: data.description,
+  //     priceInCents: data.priceInCents,
+  //     filePath,
+  //     imagePath
+  //   },
+  // })
+
+  const result = addSchema.safeParse(Object.fromEntries(formData.entries()));
   if (result.success === false) {
-    return result.error.formErrors.fieldErrors
+    return result.error.formErrors.fieldErrors;
   }
 
-  const data = result.data
-  const baseDir = getBaseDir()
-  
-  // For development and production, ensure images go to public/products
-  const productsDir = join(baseDir, 'products')
-  const publicProductsDir = join(baseDir, 'public', 'products')
-
-  // Create directories
-  await fs.mkdir(productsDir, { recursive: true })
-  await fs.mkdir(publicProductsDir, { recursive: true })
+  const data = result.data;
 
   // Generate unique IDs
-  const fileId = crypto.randomUUID()
-  const imageId = crypto.randomUUID()
-  
-  // Save the product file
-  const fullFilePath = join(productsDir, `${fileId}-${data.file.name}`)
-  await fs.writeFile(fullFilePath, Buffer.from(await data.file.arrayBuffer()))
+  const fileId = crypto.randomUUID();
+  const imageId = crypto.randomUUID();
 
-  // Save the image to public directory
-  const imageFileName = `${imageId}-${data.image.name}`
-  const fullImagePath = join(publicProductsDir, imageFileName)
-  await fs.writeFile(fullImagePath, Buffer.from(await data.image.arrayBuffer()))
+  // Upload the product file to Vercel Blob
+  const fileUpload = await put(`products/${fileId}-${data.file.name}`, await data.file.arrayBuffer(), {
+    contentType: data.file.type,
+    access: "public"
+  });
+  const filePath = fileUpload.url;
 
-  // Store the consistent paths in database
-  const filePath = `products/${fileId}-${data.file.name}`
-  const imagePath = `/products/${imageFileName}`  // This path will work with your existing ProductCard
+  // Upload the product image to Vercel Blob
+  const imageUpload = await put(`public/products/${imageId}-${data.image.name}`, await data.image.arrayBuffer(), {
+    contentType: data.image.type,
+    access: "public"
+  });
+  const imagePath = imageUpload.url;
 
-  // Save to database
+  // Save to the database
   await db.product.create({
     data: {
       isAvailableForPurchase: false,
@@ -71,14 +110,19 @@ export async function addProduct(prevState: unknown, formData: FormData) {
       description: data.description,
       priceInCents: data.priceInCents,
       filePath,
-      imagePath
+      imagePath,
     },
-  })
+  });
 
   revalidatePath("/")
   revalidatePath("/products")
   redirect("/admin/products")
 }
+
+
+
+
+
 
 export async function toggleProductAvailability(id: string, isAvailableForPurchase: boolean) {
   await db.product.update({where: {id}, data: {isAvailableForPurchase} } )

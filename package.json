@@ -18,6 +18,7 @@
     "@react-email/components": "^0.0.28",
     "@stripe/react-stripe-js": "^2.8.1",
     "@stripe/stripe-js": "^4.9.0",
+    "@vercel/blob": "^0.26.0",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

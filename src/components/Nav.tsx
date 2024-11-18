@@ -22,6 +22,7 @@ export function Nav({ children }: { children: ReactNode }) {
       </div>
 
       {/* Hamburger Button */}
+      {/* Displays only on small screens (`md:hidden`). Includes accessibility features like `aria-label` and focus styling. */}
       <button
         onClick={toggleMenu}
         className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-secondary"
